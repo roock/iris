@@ -182,7 +182,18 @@
           {{/if}}
         {{/isUser}}
         </td>
-        <td> {{#if resolved}} Resolved {{else}} Unresolved {{/if}}</td>
+        <td>
+        {{#if resolved}}
+          <button type="button" id="resolve-incident" class="pull-right btn btn-default blue btn-sm" data-id="{{id}}" data-action="unresolve" data-toggle="tooltip" data-placement="right" title="This removes a semantic tag that indicates the underlying issue is mitigated">Mark Unresolved</button>
+        {{else}}
+          <button type="button" id="resolve-incident" class="pull-right btn btn-default blue btn-sm" data-id="{{id}}" data-action="resolve" data-toggle="tooltip" data-placement="right" title="This applies a semantic tag that indicates the underlying issue is mitigated">Mark Resolved</button>
+        {{/if}}
+        {{#if resolved}}
+        <button type="button" class="btn btn-default btn-sm resolve-incident" disabled data-id="{{id}}" data-action="claim">Resolved</button>
+        {{else}}
+        <button type="button" class="btn btn-default btn-sm resolve-incident" data-id="{{id}}" data-action="resolve">Resolve</button>
+        {{/if}}
+        </td>
       </tr>
     {{/each}}
   </tbody>

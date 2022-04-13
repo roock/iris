@@ -1333,6 +1333,10 @@ iris = {
         e.stopPropagation();
         self.claimIncident(e);
       });
+      $table.on('click', '.resolve-incident', function(e){
+        e.stopPropagation();
+        self.resolveIncident(e);
+      });
       data.$page.on('click', self.data.claimModalBtn, self.claimModal.bind(this));
       data.$claimModal.on('click', self.data.claimBtn, self.claimActive.bind(this));
       data.$filterForm.on('submit', iris.tables.filterTable.bind(this));
