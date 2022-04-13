@@ -1,34 +1,35 @@
 tasks:
-  - init: |
+  - name: Dependencies
+    init: |
       python3 -m venv venv
       source venv/bin/activate
       pip install --upgrade pip wheel setuptools
       pip install -e '.[dev,kazoo]'
+      gp sync-done installation
   - name: Database
     before: |
       # make sure to stop and remove mysql container before starting it again
       docker stop iris-db || true
       docker rm iris-db || true
       docker run --name iris-db -p 127.0.0.1:3306:3306/tcp -e MYSQL_ROOT_PASSWORD=root -d mysql:5.5
+      # wait for databse to be ready
+      gp await-port 3000
       # Initialize Database
       echo "create database iris;" | mysql -h 127.0.0.1 -u root -proot
       cat db/schema_0.sql | mysql -h 127.0.0.1 -u root -proot iris
       cat db/dummy_data.sql | mysql -h 127.0.0.1 -u root -proot iris
 
   - name: Iris API
-      gp sync-done installation
-    before: |
-      source venv/bin/activate
     init: |
       gp sync-await installation
     command: |
+      source venv/bin/activate
       IRIS_CFG_DB_PASSWORD=root make
   - name: Iris Sender
-    before: |
-      source venv/bin/activate
     init: |
       gp sync-await installation
     command: |
+      source venv/bin/activate
       IRIS_CFG_DB_PASSWORD=root make sender
 
 ports:
