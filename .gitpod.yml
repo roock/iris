@@ -1,4 +1,7 @@
 tasks:
+  - name: Database
+    before: |
+      docker run --name iris-db -p 127.0.0.1:3306:3306/tcp -e MYSQL_ROOT_PASSWORD=root -d mysql:5.5
   - init: |
       python3 -m venv venv
       source venv/bin/activate
@@ -10,9 +13,6 @@ tasks:
       cat db/dummy_data.sql | mysql -h 127.0.0.1 -u root -proot iris
       gp sync-done installation
     command: IRIS_CFG_DB_PASSWORD=root make
-  - name: Database
-    init: |
-      docker run --name iris-db -p 127.0.0.1:3306:3306/tcp -e MYSQL_ROOT_PASSWORD=root -d mysql:5.5
   - name: Iris Sender
     init: gp sync-await installation
     command: make sender
