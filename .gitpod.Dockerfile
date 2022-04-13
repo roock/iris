@@ -5,15 +5,15 @@ FROM gitpod/workspace-base
 # Install custom tools, runtime, etc.
 #RUN brew install fzf
 
-RUN sudo apt-get update && \
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -o Dpkg::Options::=--force-confold dist-upgrade && \
-    sudo apt-get install gnupg2 && \
-    wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb && \
-    sudo dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb && \
-    rm percona-release_latest.$(lsb_release -sc)_all.deb && \
-    sudo apt-get update && \
-    DEBIAN_FRONTEND=noninteractive sudo -E apt-get -y -o Dpkg::Options::=--force-confold install percona-server-server-5.7 && \
-    sudo rm -rf /var/lib/apt/lists/*
+# ##RUN sudo apt-get update && \
+#     DEBIAN_FRONTEND=noninteractive sudo apt-get -y -o Dpkg::Options::=--force-confold dist-upgrade && \
+#     sudo apt-get install gnupg2 && \
+#     wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb && \
+#     sudo dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb && \
+#     rm percona-release_latest.$(lsb_release -sc)_all.deb && \
+#     sudo apt-get update && \
+#     DEBIAN_FRONTEND=noninteractive sudo -E apt-get -y -o Dpkg::Options::=--force-confold install percona-server-server-5.7 && \
+#     sudo rm -rf /var/lib/apt/lists/*
 
 RUN sudo apt-get update && sudo apt-get -y -o Dpkg::Options::=--force-confold dist-upgrade && \
     DEBIAN_FRONTEND=noninteractive sudo apt-get -y -o Dpkg::Options::=--force-confold install \

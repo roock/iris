@@ -3,8 +3,30 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - init: make
 
+  - name: Database
+    init: |
+      docker run --name iris-db -p 127.0.0.1:3306:3306/tcp -e MYSQL_ROOT_PASSWORD=root -d mysql:5.5
+  - name: Iris API
+    init: |
+      python3 -m venv env
+      source env/bin/activate
+      pip install wheel
+      pip install -e '.[dev,kazoo]'
+      # TODO: wait for mysql
+      echo "create database iris;" | mysql -h 127.0.0.1 -u root -proot
+      cat db/schema_0.sql | mysql -h 127.0.0.1 -u root -proot iris
+      cat db/dummy_data.sql | mysql -h 127.0.0.1 -u root -proot iris
+      gp sync-done installation
+    command: IRIS_CFG_DB_PASSWORD=root make
+  - name: Iris Sender
+    init: gp sync-await installation
+    command: make sender
+
+
+ports:
+  - port: 16649
+    onOpen: open-browser
 
 image:
   file: .gitpod.Dockerfile
