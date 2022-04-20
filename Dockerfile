@@ -28,8 +28,8 @@ COPY ops/entrypoint.py entrypoint.py
 
 RUN useradd -m -s /bin/bash iris && \
     chown -R iris:iris /var/log/nginx /var/lib/nginx && \
-    mkdir -p /home/iris/var/log/uwsgi /home/iris/var/log/nginx /home/iris/var/run /home/iris/var/relay /home/iris/var/log/sender && \
-    chown -R iris:iris /home/iris/var/log/uwsgi /home/iris/var/log/nginx /home/iris/var/run /home/iris/var/relay /home/iris/var/log/sender
+    mkdir -p /home/iris/var/log/uwsgi /home/iris/var/log/nginx /home/iris/var/run /home/iris/var/relay /home/iris/var/log/sender /home/iris/source/src/iris/ui/static/.webassets-cache /home/iris/source/src/iris/ui/static/bundles && \
+    chown -R iris:iris /home/iris/var/log/uwsgi /home/iris/var/log/nginx /home/iris/var/run /home/iris/var/relay /home/iris/var/log/sender /home/iris/source/src/iris/ui/static/.webassets-cache /home/iris/source/src/iris/ui/static/bundles
 
 EXPOSE 16649
 
